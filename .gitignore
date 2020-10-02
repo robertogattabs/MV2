@@ -2,6 +2,10 @@
 .Rhistory
 .Rapp.history
 
+NAMESPACE
+
+./man/
+
 # Session Data files
 .RData
 
