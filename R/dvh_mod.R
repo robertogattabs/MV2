@@ -677,7 +677,7 @@ DVH.Dvolume <- function(dvh,  Volume=0.001) {
 #' @return A \code{dvhmatrix} object where 7 columns: Dose, mean DVH, low C.I. of mean DVH, high C.I. of mean DVH, 
 #'         median DVH, low C.I. of median DVH, high C.I. of median DVH.
 #' @export
-#' @useDynLib moddicom
+#' @useDynLib MV2
 #' @examples ## creates a dvhmatrix class object with 100 DVHs
 #' a<-DVH.generate(dvh.number = 100, dvh.type = "cumulative", vol.distr = "relative")
 #' b<-DVH.baseStat(dvh = a)
