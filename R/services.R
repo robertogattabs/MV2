@@ -1,7 +1,7 @@
 #' service class
 #'
 #' @description  It handles messages from script to a chosen output (screen, file, etc.)
-#' @useDynLib moddicom
+#' @useDynLib MV2
 #' @export
 #' @import stringr XML
 services<-function() {
@@ -479,7 +479,7 @@ services<-function() {
 #' Mesh volume and surface
 #'
 #' @description  function for calculating the Volume of a Mesh
-#' @useDynLib moddicom
+#' @useDynLib MV2
 #'
 #'
 StructureVolume<-function(mesh, measure.unit=c("cm3", "mm3")) {
@@ -497,7 +497,7 @@ StructureVolume<-function(mesh, measure.unit=c("cm3", "mm3")) {
 #' Mesh surface
 #'
 #' @description  function for calculating the Surface of a Mesh
-#' @useDynLib moddicom
+#' @useDynLib MV2
 #'
 #'
 StructureSurface<-function(mesh, measure.unit=c("cm2", "mm2")) {
@@ -517,7 +517,7 @@ StructureSurface<-function(mesh, measure.unit=c("cm2", "mm2")) {
 #'
 #' @description scrive quanto indicato come stringa nell'oggetto stringa
 #'  su un file esterno nel path indicato nel LogFilePath 
-#' @useDynLib moddicom
+#' @useDynLib MV2
 #'
 writeLog<-function(  stringa, file = path ) {
   
@@ -527,7 +527,7 @@ writeLog<-function(  stringa, file = path ) {
 # -fm Carlotta 23112017
 
 
-#- inizio modifica jl 31/10/2019: inserisco le funzioni cast di reshape2 per evitare il warning in library(moddicom) su conflitto con data.table
+#- inizio modifica jl 31/10/2019: inserisco le funzioni cast di reshape2 per evitare il warning in library(MV2) su conflitto con data.table
 
 cast <- function(data, formula, fun.aggregate = NULL, ..., subset = NULL, fill = NULL, drop = TRUE, value.var = guess_value(data), value_var) {
   

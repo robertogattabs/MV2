@@ -28,7 +28,7 @@
 #' 
 #' }
 #' @export
-#' @useDynLib moddicom
+#' @useDynLib MV2
 #' @import stringr XML misc3d rgl Rvcg oce rmarkdown moments
 geoLet<-function(ROIVoxelMemoryCache = TRUE , 
                  folderCleanUp = FALSE,

@@ -1,7 +1,7 @@
 #' class for viewing
 #' 
 #' @description  allows to view what's happening
-#' @useDynLib moddicom
+#' @useDynLib MV2
 #' @import Rvcg rgl 
 #' @export
 viewer<-function() {

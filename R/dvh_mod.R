@@ -327,7 +327,7 @@ DVH.absolute<-function(dvh) {
 #' @return A vector containing the values of EUD(s) for the given DVH(s)
 #' @export
 #' @references Niemierko A. \emph{Reporting and analyzing dose distributions: a concept of equivalent uniform dose.} Med Phys. 1997 Jan;24(1):103-10. PubMed PMID: 9029544.
-#' @useDynLib moddicom
+#' @useDynLib MV2
 DVH.eud<-function(dvh, a = 1) {
   dvh<-DVH.cum.to.diff(dvh = dvh)
   dvh<-DVH.relative(dvh = dvh)
