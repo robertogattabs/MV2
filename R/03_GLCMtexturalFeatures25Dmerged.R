@@ -1,5 +1,5 @@
 
-
+#' @export
 glcmTexturalFeatures25Dmerged <- function(imgObj,n_grey){
 
   # compute number of non-NA voxels

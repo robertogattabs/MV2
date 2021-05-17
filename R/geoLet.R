@@ -658,11 +658,14 @@ geoLet<-function(ROIVoxelMemoryCache = TRUE ,
     ROINames<-getROIList();
     objServ<-services();
     
-    for(nomeROI in ROINames[2,]) {
+    arr.ROI <- ROINames[2,]
+    arr.ROI <- arr.ROI[!(arr.ROI %in% "")]
+    
+    for(nomeROI in arr.ROI) {
       FrameOfReferenceUID<-dataStorage$info$structures[[nomeROI]]$FrameOfReferenceUID;
       # prendi la seriesInstanceUID con quel FrameOfReferenceUID
       # (per sapere quale serie di immagini avrà associata la ROI)
-      
+      # browser()
       seriesInstanceUID<-giveBackImageSeriesInstanceUID(FrameOfReferenceUID=FrameOfReferenceUID)
       # bene, ora per ogni ROI scorri i contorni sui vari piani assiali
       listaPuntiROI<-getROIPointList(ROINumber = nomeROI );

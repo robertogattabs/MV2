@@ -1,10 +1,10 @@
 
 #'@import radiomics data.table
-
+#' @export
 glcmTexturalFeatures <- function(imgObj,n_grey){
 
   # compute number of non-NA voxels
-
+# browser()
   nVoxel <- dim(imgObj)[1]*dim(imgObj)[2]*dim(imgObj)[3] - sum(is.na(imgObj))
   grayLevlesMax <- max(imgObj,na.rm = T)
   ### compute Gray Levels Cooccurrence Matrices

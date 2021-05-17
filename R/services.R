@@ -436,6 +436,7 @@ services<-function() {
     }
     if(stringaQuery=='') stringaQuery<-paste(c('/file-format/data-set/element[@tag="',tag,'"]'),collapse='');
     
+    # if( tag == "0028,0010") browser()
     # execute the QUERY    
     valore<-xpathApply(doc,stringaQuery,xmlValue);
     if(length(valore)==2) logObj$handle( "error" , "a tag in DICOM file seems to be duplicated"  );

@@ -4,7 +4,7 @@
 
 
 #' @import radiomics data.table
-
+#' @export
 glcmTexturalFeaturesMerged <- function(imgObj,n_grey){
 
   # compute number of non-NA voxels

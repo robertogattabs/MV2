@@ -84,7 +84,7 @@ FIL.applyFilterToStudy<-function(obj.mmButo, ROINameForNormalization=NA, valueFo
     # prendi le ROI per la normalizzazione e calcolane le statistiche
     ROIVoxelDataForNormalization<-obj.mmButo$getROIVoxel(ROIName = ROINameForNormalization)
     statsForNormalization<-obj.mmButo$getROIVoxelStats(ROIVoxelList = ROIVoxelDataForNormalization)
-
+    
     # se non è stato passato un valore di normalizzazione prendi il massimo delle medie della ROI
     # utilizzata per normalizzare
     if(is.na(valueForNormalization)) {
@@ -108,7 +108,7 @@ FIL.applyFilterToStudy<-function(obj.mmButo, ROINameForNormalization=NA, valueFo
       multiplier[[ patient ]] <- 1
     }      
   } 
-
+  
   # prendi la lista di oggetti geoLet
   list_geoLet<-obj.mmButo$getAttribute("list_geoLet");
   
@@ -141,7 +141,7 @@ FIL.applyFilterToStudy<-function(obj.mmButo, ROINameForNormalization=NA, valueFo
         originalMR<-FIL.applyFilter( originalMR, 
                                      kernel.type = filter.pipeline[[i]]$kernel.type,
                                      sigma = normalizedSigma)
-                                     #sigma = filter.pipeline[[i]]$sigma)
+        #sigma = filter.pipeline[[i]]$sigma)
       }
       # l'output deve essere mascherato
       u<-voxelData.ready.espanso
@@ -151,7 +151,7 @@ FIL.applyFilterToStudy<-function(obj.mmButo, ROINameForNormalization=NA, valueFo
       
       #FUNMap[[patient]]<-originalMR * voxelData.ready.espanso;
       # Applica la maschera
-
+      
       FUNMap[[patient]]<-originalMR * u;
       FUNMap[[patient]][which(is.na(voxelData.ready.espanso),arr.ind = TRUE)]<-NA
       
@@ -221,7 +221,7 @@ FIL.2D.conv.Filter<-function(obj.mmButo,ROIName, filter.pipeline ,collection="de
       listaValoriMedi[[i]]<- upperValueForNormalization / listaValoriMedi[[i]]
     }
   }
-
+  
   # prendi la lista di oggetti geoLet
   list_geoLet<-obj.mmButo$getAttribute("list_geoLet");
   
@@ -335,118 +335,118 @@ FIL.2D.conv.Filter.geoLet<-function(obj.geoLet,ROIName, filter.pipeline ,collect
                                     ROINameForNormalization=NA, px ="", py="", returnBigCube = FALSE) {
   objS<-services();
   FUNMap<-list();
-
+  
   upperValueForNormalization<-NA
   listaValoriMedi<-list();
   if(scaleFactor != "voxel" & scaleFactor != "space") stop("\n Error: 'scaleFactor' can be only 'voxel' or 'space'.");
   # prendi i pixelSpacing
-#  pixelSpacingArr<-obj.mmButo$getAllPixelSpacing();
-
+  #  pixelSpacingArr<-obj.mmButo$getAllPixelSpacing();
+  
   pixelSpacingArr<-obj.geoLet$getPixelSpacing();
   if(px=="") px <- pixelSpacingArr[1]
   if(py=="") py <- pixelSpacingArr[2]
   
-#   # prendi la ROI
+  #   # prendi la ROI
   # browser()
   new.pixelSpacing <- c( px , py)
   ROIVoxelData<-obj.geoLet$getROIVoxel(Structure = ROIName, new.pixelSpacing = new.pixelSpacing)
-
-#   # se bisogna normalizzare, prendi anche le ROI di normalizzazione
-#   if(!is.na(ROINameForNormalization)) {
-#     norma.ROI<-obj.mmButo$getROIVoxel(ROIName = ROINameForNormalization)
-#     # cicla su tutte 
-#     for(i in names(norma.ROI)) {
-#       listaValoriMedi[[i]]<-mean(norma.ROI[[i]]$masked.images$voxelCube[ which(!is.na(  norma.ROI[[i]]$masked.images$voxelCube ),arr.ind = TRUE ) ])
-#     }
-#     upperValueForNormalization<-max(  unlist( listaValoriMedi ) )
-#     for(i in names(listaValoriMedi)) {
-#       listaValoriMedi[[i]]<- upperValueForNormalization / listaValoriMedi[[i]]
-#     }
-#   }
+  
+  #   # se bisogna normalizzare, prendi anche le ROI di normalizzazione
+  #   if(!is.na(ROINameForNormalization)) {
+  #     norma.ROI<-obj.mmButo$getROIVoxel(ROIName = ROINameForNormalization)
+  #     # cicla su tutte 
+  #     for(i in names(norma.ROI)) {
+  #       listaValoriMedi[[i]]<-mean(norma.ROI[[i]]$masked.images$voxelCube[ which(!is.na(  norma.ROI[[i]]$masked.images$voxelCube ),arr.ind = TRUE ) ])
+  #     }
+  #     upperValueForNormalization<-max(  unlist( listaValoriMedi ) )
+  #     for(i in names(listaValoriMedi)) {
+  #       listaValoriMedi[[i]]<- upperValueForNormalization / listaValoriMedi[[i]]
+  #     }
+  #   }
   
   # prendi la lista di oggetti geoLet
-#  list_geoLet<-obj.mmButo$getAttribute("list_geoLet");
+  #  list_geoLet<-obj.mmButo$getAttribute("list_geoLet");
   
   # inizia a ciclare su tutti i pazienti
-#  for(patient in names(ROIVoxelData)) {
+  #  for(patient in names(ROIVoxelData)) {
+  
+  if((TRUE %in% is.na(ROIVoxelData)) == FALSE  ) {
+    print( paste("FUN - Now filtering:"),collapse='' )
     
-    if((TRUE %in% is.na(ROIVoxelData)) == FALSE  ) {
-      print( paste("FUN - Now filtering:"),collapse='' )
-      
-      # prendi i voxelData ed estendili
-      voxelData.ready<-ROIVoxelData
-      pc<-ROIVoxelData
-      x<-pc$masked.images$location$min.x; y<-pc$masked.images$location$min.y; z<-pc$masked.images$location$min.z
-      fe<-pc$masked.images$location$fe; se<-pc$masked.images$location$se;  te<-pc$masked.images$location$te      
-#      voxelData.ready.espanso <- obj.mmButo$expandCube(   voxelData.ready   ) 
-      # browser()
-      voxelData.ready.espanso<-objS$expandCube(littleCube = pc$masked.images$voxelCube, x.start = x, y.start=y, z.start=z, fe = fe, se = se, te = te )    
-      voxelDataDaRiapplicare <- voxelData.ready.espanso;
-
-      # e crea la relativa maschera
-      #voxelData.ready.espanso[voxelData.ready.espanso!=0]<-1
-      voxelData.ready.espanso[!is.na(voxelData.ready.espanso)]<-1
-      
-      # prendi l'original voxelCute non tagliato dalla ROI
-      # è su questo che dovrò applicare il filtro
-      # originalMR <- obj.geoLet$getImageVoxelCube()  (  new.pixelSpacing  )
-      originalMR <- obj.geoLet$getImageVoxelCube( 
-        ps.x = px, 
-        ps.y = py,
-        ps.z = pixelSpacingArr[3]
-        )
-      
-
-      minZ<-voxelData.ready$masked.images$location$min.z
-      maxZ<-voxelData.ready$masked.images$location$max.z
-      
-      # se e' stato chiesto di croppare il voxelcube per migliorere le pervormance
-      # (ha senso sul 2d!)
-      if(cropImageVoxelCube_inProcessing == TRUE) {
-        croppedSubMatrix<- originalMR[,,minZ:maxZ]
-        OLDoriginalMR<-originalMR
-        originalMR<-croppedSubMatrix
-      }
-      
-      for(i in seq(1,length(filter.pipeline))) {
-        print( paste("     => applying",filter.pipeline[[i]]$kernel.type),collapse='' )
-        if (scaleFactor == "space") {
-          normalizedSigma<-sqrt((filter.pipeline[[i]]$sigma^2)/(pixelSpacingArr[1]*pixelSpacingArr[2]))
-        } else {
-          normalizedSigma<-filter.pipeline[[i]]$sigma
-        }
-        originalMR<-FIL.applyFilter( originalMR, 
-                                     kernel.type = filter.pipeline[[i]]$kernel.type,
-                                     sigma = normalizedSigma)
-        #sigma = filter.pipeline[[i]]$sigma)
-      }
-      # se era stato croppato, ripristina!
-      if(cropImageVoxelCube_inProcessing == TRUE) {
-        # browser()
-        for(zPos in seq(minZ,maxZ)) {
-          OLDoriginalMR[,,zPos]<-originalMR[,,(zPos-minZ+1)]
-        }
-        originalMR<-OLDoriginalMR
-      }
-      
-      # l'output deve essere mascherato
-      u<-voxelData.ready.espanso
-      
-      u[which(!is.na(u),arr.ind = TRUE)]<-1
-      u[which(is.na(u),arr.ind = TRUE)]<-0
-      
-      # Applica la maschera
-      FUNMap<-originalMR * u;
-      FUNMap[which(is.na(voxelData.ready.espanso),arr.ind = TRUE)]<-NA
-      
-      # browser()
-      # se richiesto, CROPPA!
-      if ( cropResult == TRUE )  { FUNMap<-objS$cropCube( FUNMap ) }
+    # prendi i voxelData ed estendili
+    voxelData.ready<-ROIVoxelData
+    pc<-ROIVoxelData
+    x<-pc$masked.images$location$min.x; y<-pc$masked.images$location$min.y; z<-pc$masked.images$location$min.z
+    fe<-pc$masked.images$location$fe; se<-pc$masked.images$location$se;  te<-pc$masked.images$location$te      
+    #      voxelData.ready.espanso <- obj.mmButo$expandCube(   voxelData.ready   ) 
+    # browser()
+    voxelData.ready.espanso<-objS$expandCube(littleCube = pc$masked.images$voxelCube, x.start = x, y.start=y, z.start=z, fe = fe, se = se, te = te )    
+    voxelDataDaRiapplicare <- voxelData.ready.espanso;
+    
+    # e crea la relativa maschera
+    #voxelData.ready.espanso[voxelData.ready.espanso!=0]<-1
+    voxelData.ready.espanso[!is.na(voxelData.ready.espanso)]<-1
+    
+    # prendi l'original voxelCute non tagliato dalla ROI
+    # è su questo che dovrò applicare il filtro
+    # originalMR <- obj.geoLet$getImageVoxelCube()  (  new.pixelSpacing  )
+    originalMR <- obj.geoLet$getImageVoxelCube( 
+      ps.x = px, 
+      ps.y = py,
+      ps.z = pixelSpacingArr[3]
+    )
+    
+    
+    minZ<-voxelData.ready$masked.images$location$min.z
+    maxZ<-voxelData.ready$masked.images$location$max.z
+    
+    # se e' stato chiesto di croppare il voxelcube per migliorere le pervormance
+    # (ha senso sul 2d!)
+    if(cropImageVoxelCube_inProcessing == TRUE) {
+      croppedSubMatrix<- originalMR[,,minZ:maxZ]
+      OLDoriginalMR<-originalMR
+      originalMR<-croppedSubMatrix
     }
-    else {
-      FUNMap<-NA
+    
+    for(i in seq(1,length(filter.pipeline))) {
+      print( paste("     => applying",filter.pipeline[[i]]$kernel.type),collapse='' )
+      if (scaleFactor == "space") {
+        normalizedSigma<-sqrt((filter.pipeline[[i]]$sigma^2)/(pixelSpacingArr[1]*pixelSpacingArr[2]))
+      } else {
+        normalizedSigma<-filter.pipeline[[i]]$sigma
+      }
+      originalMR<-FIL.applyFilter( originalMR, 
+                                   kernel.type = filter.pipeline[[i]]$kernel.type,
+                                   sigma = normalizedSigma)
+      #sigma = filter.pipeline[[i]]$sigma)
     }
-#  }
+    # se era stato croppato, ripristina!
+    if(cropImageVoxelCube_inProcessing == TRUE) {
+      # browser()
+      for(zPos in seq(minZ,maxZ)) {
+        OLDoriginalMR[,,zPos]<-originalMR[,,(zPos-minZ+1)]
+      }
+      originalMR<-OLDoriginalMR
+    }
+    
+    # l'output deve essere mascherato
+    u<-voxelData.ready.espanso
+    
+    u[which(!is.na(u),arr.ind = TRUE)]<-1
+    u[which(is.na(u),arr.ind = TRUE)]<-0
+    
+    # Applica la maschera
+    FUNMap<-originalMR * u;
+    FUNMap[which(is.na(voxelData.ready.espanso),arr.ind = TRUE)]<-NA
+    
+    # browser()
+    # se richiesto, CROPPA!
+    if ( cropResult == TRUE )  { FUNMap<-objS$cropCube( FUNMap ) }
+  }
+  else {
+    FUNMap<-NA
+  }
+  #  }
   if(returnBigCube==TRUE) FUNMap$originalBigCube<-originalMR
   return(FUNMap)
 }
@@ -612,9 +612,9 @@ FIL.2D.conv.Filter.voxelVolumes<-function(study.VV, ROI.VV, filter.pipeline , pi
   delta.z<-ROI.VV$masked.images$location$max.z - ROI.VV$masked.images$location$min.z
   def.from.x<-margine; def.to.x<-(max.x-min.x);
   def.from.y<-margine; def.to.y<-(max.y-min.y);
-
+  
   study.VV <- study.VV[ min.x: max.x, min.y:max.y, min.z:max.z ]
-
+  
   for(i in seq(1,length(filter.pipeline))) {
     print( paste("     => applying",filter.pipeline[[i]]$kernel.type),collapse='' )
     if (scaleFactor == "space") {
@@ -628,7 +628,7 @@ FIL.2D.conv.Filter.voxelVolumes<-function(study.VV, ROI.VV, filter.pipeline , pi
   }
   
   originalMR<-originalMR[ margine:(margine+delta.x),margine:(margine+delta.y),margine:(margine+delta.z) ]
-
+  
   maschera <- ROI.VV$masked.images$voxelCube
   # l'output deve essere mascherato
   maschera[which(!is.na(maschera),arr.ind = TRUE)]<-1
@@ -640,7 +640,7 @@ FIL.2D.conv.Filter.voxelVolumes<-function(study.VV, ROI.VV, filter.pipeline , pi
   
   # se richiesto, CROPPA!
   if ( cropResult == TRUE )  FUNMap<-objS$cropCube( originalMR )   
-
+  
   return(originalMR)
 }
 #' Return a filtered VoxelCube
@@ -650,7 +650,7 @@ FIL.2D.conv.Filter.voxelVolumes<-function(study.VV, ROI.VV, filter.pipeline , pi
 #' @export
 FIL.getFilteredVoxelCube<-function( obj.geoLet, ROIName, kind.of.filter, sigma=0.8 ) {
   if( kind.of.filter != "LoG" & kind.of.filter!="none") stop("Error: only 'LoG' and 'none' are admitted, in this release")
-
+  
   cat("\n\n ------------------------------------------------- ")
   cat("\n funzione da testare a causa della nuova interpolazione del getROIVoxels()")
   cat("\n ------------------------------------------------- \n")

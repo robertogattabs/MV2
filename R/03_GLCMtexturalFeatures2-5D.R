@@ -4,7 +4,7 @@
 
 
 #' @import radiomics data.table
-
+#' @export
 
 glcmTexturalFeatures25D <- function(imgObj,n_grey){
 

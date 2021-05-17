@@ -3,7 +3,7 @@
 #######################################################################################################################
 
 
-
+#' @export
 morphologicalFeatures <- function(imgObj,px,py,pz){
 
 #dyn.load("/home/kbocalc/Desktop/J/DresdenFeatures/lateralSurface.so");
